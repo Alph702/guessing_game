@@ -5,27 +5,27 @@ fn main() {
 
     let secret_number = rand::random_range(1..=100);
     // println!("Secret number is: {secret_number}");
+    loop {
+        let mut guess = String::new();
 
-    let mut guess = String::new();
+        println!("Enter your guess:");
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Falled to get your guess");
 
-    println!("Enter your guess:");
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Falled to get your guess");
+        // println!("You guessed: {guess}");
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Please enter a number!");
+                break;
+            }
+        };
 
-    // println!("You guessed: {guess}");
-    let guess: u32 = match guess.trim().parse() {
-        Ok(num) => num,
-        Err(_) => {
-            println!("Please enter a number!");
-            return;
-        },
-    };
-
-    match guess.cmp(&secret_number) {
-        std::cmp::Ordering::Less => println!("Too small!"),
-        std::cmp::Ordering::Greater => println!("Too big!"),
-        std::cmp::Ordering::Equal => println!("You win!"),
-    };
-
+        match guess.cmp(&secret_number) {
+            std::cmp::Ordering::Less => println!("Too small!"),
+            std::cmp::Ordering::Greater => println!("Too big!"),
+            std::cmp::Ordering::Equal => println!("You win!"),
+        };
+    }
 }
